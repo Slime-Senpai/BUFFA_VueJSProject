@@ -1,0 +1,23 @@
+{
+  "name": "buffa_vuejsproject",
+  "version": "1.0.0",
+  "description": "A VueJS Project by DAUMAS Timmy and LOGNON Jean-Baptiste for the JavaScript and HTML5 class.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Slime-Senpai/BUFFA_VueJSProject.git"
+  },
+  "author": "Timmy DAUMAS and Jean-Baptiste LOGNON",
+  "bugs": {
+    "url": "https://github.com/Slime-Senpai/BUFFA_VueJSProject/issues"
+  },
+  "homepage": "https://github.com/Slime-Senpai/BUFFA_VueJSProject#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}
