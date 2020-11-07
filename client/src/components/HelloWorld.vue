@@ -91,6 +91,19 @@
           </v-date-picker>
         </v-menu>
 
+        <v-select
+            :items="items"
+            label="Choisir un Département"
+            solo
+          ></v-select>
+
+          <v-btn
+            color="secondary"
+            depressed
+            elevation="6"
+            large
+          >Rechercher</v-btn>
+
       </v-col>
     </v-row>
 
@@ -138,6 +151,7 @@
     name: 'HelloWorld',
 
     data: () => ({
+      items: ['Toutes', 'Auvergne', 'Aquitaine', 'Lorraine'],
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       date2: new Date().toISOString().substr(0, 10),
