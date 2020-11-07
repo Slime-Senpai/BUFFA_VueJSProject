@@ -29,19 +29,19 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <Restaurants/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import Restaurants from './components/Restaurants';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    Restaurants,
   },
 
   data: () => ({
