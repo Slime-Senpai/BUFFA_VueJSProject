@@ -5,48 +5,28 @@ const ObjectId = require('mongodb').ObjectID;
 
 router.get('/getPage/', async function (req, res) {
   const mongo = await Connection.connectToMongo();
+  if (mongo === null) {
+    return res.sendStatus(500);
+  }
   const collection = mongo.collection('restaurants');
-  const pageSize = Number(process.env.PAGESIZE);
 
-  if (mongo === null || collection === null || !pageSize) {
+  if (collection === null) {
     return res.sendStatus(500);
   }
 
   const page = req.query.page ? req.query.page : 1;
+  const pageSize = req.query.pageSize ? Number(req.query.pageSize) : 50;
+  const name = req.query.name ? req.query.name : null;
+
+  const query = name ? { name: new RegExp(`.*${name}.*`, 'i') } : { name: { $not: { $eq: '' } } };
 
   try {
-    const restaurants = await collection.find({ name: { $not: { $eq: '' } } })
-      .skip(page * pageSize)
+    const restaurants = await collection.find(query)
+      .skip((page - 1) * pageSize)
       .limit(pageSize)
       .toArray();
 
-    const count = restaurants.length;
-
-    res.send({ restaurants, count });
-  } catch (error) {
-    console.error(error);
-
-    res.sendStatus(500);
-  }
-});
-
-router.get('/search/:name', async function (req, res) {
-  const name = req.params.name;
-  const mongo = await Connection.connectToMongo();
-  const collection = mongo.collection('restaurants');
-
-  if (mongo === null || collection === null) {
-    return res.sendStatus(500);
-  }
-
-  if (!name) {
-    return res.sendStatus(400);
-  }
-
-  try {
-    const restaurants = await collection.find({ name: ObjectId(name) });
-
-    const count = restaurants.length;
+    const count = Math.ceil((await collection.countDocuments(query)) / pageSize);
 
     res.send({ restaurants, count });
   } catch (error) {
@@ -59,9 +39,14 @@ router.get('/search/:name', async function (req, res) {
 router.get('/get/:id', async function (req, res) {
   const id = req.params.id;
   const mongo = await Connection.connectToMongo();
+
+  if (mongo === null) {
+    return res.sendStatus(500);
+  }
+
   const collection = mongo.collection('restaurants');
 
-  if (mongo === null || collection === null) {
+  if (collection === null) {
     return res.sendStatus(500);
   }
 
@@ -83,9 +68,14 @@ router.get('/get/:id', async function (req, res) {
 router.get('/create', async function (req, res) {
   const newRestaurant = req.query.restaurant;
   const mongo = await Connection.connectToMongo();
+
+  if (mongo === null) {
+    return res.sendStatus(500);
+  }
+
   const collection = mongo.collection('restaurants');
 
-  if (mongo === null || collection === null) {
+  if (collection === null) {
     return res.sendStatus(500);
   }
 
@@ -108,9 +98,14 @@ router.get('/update/:id', async function (req, res) {
   const id = req.params.id;
   const updatedRestaurant = req.query.restaurant;
   const mongo = await Connection.connectToMongo();
+
+  if (mongo === null) {
+    return res.sendStatus(500);
+  }
+
   const collection = mongo.collection('restaurants');
 
-  if (mongo === null || collection === null) {
+  if (collection === null) {
     return res.sendStatus(500);
   }
 
@@ -132,9 +127,14 @@ router.get('/update/:id', async function (req, res) {
 router.get('/delete/:id', async function (req, res) {
   const id = req.params.id;
   const mongo = await Connection.connectToMongo();
+
+  if (mongo === null) {
+    return res.sendStatus(500);
+  }
+
   const collection = mongo.collection('restaurants');
 
-  if (mongo === null || collection === null) {
+  if (collection === null) {
     return res.sendStatus(500);
   }
 
