@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "leaflet": "^1.7.1",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
     "vue": "^2.6.11",
     "vue-router": "^3.4.8",
+    "vue2-leaflet": "^2.6.0",
     "vuetify": "^2.2.11"
   },
   "devDependencies": {

@@ -2,29 +2,31 @@
   <v-app>
     <v-app-bar
       app
-      color="#7f7f7f"
+      color="#3d2fff"
       dark
     >
-      <div class="d-flex align-center">
+      <div class="d-flex align-left">
+        <router-link :to="'/'">
         <v-img
-          alt="Vuetify Logo"
+          alt="Restaurant Logo"
           class="shrink mr-2"
           contain
-          src="./assets/GEIPAN_logo_2.png"
+          src="./assets/logo.png"
           transition="scale-transition"
-          width="200"
+          width="80"
         />
+        </router-link>
       </div>
 
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://www.youtube.com/watch?v=YFNsRogBqb0"
         target="_blank"
         text
+        color="#3d1fff"
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <span class="mr-2">Tuto informaticien</span>
       </v-btn>
     </v-app-bar>
 

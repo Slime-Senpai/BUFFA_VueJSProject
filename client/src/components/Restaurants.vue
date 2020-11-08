@@ -31,7 +31,7 @@
           </template>
         </v-data-table>
         <v-select v-model="pageSize" :items="pageSizes" item-text="text" item-value="nbPages" label="PageSize" persistent-hint single-line></v-select>
-        <v-pagination v-model="page" :length="length" total-visible="10" circle @input="getRestaurants"></v-pagination>
+        <v-pagination v-model="page" :length="length" total-visible="10" circle @input="getRestaurants" color="#3d2fff"></v-pagination>
       </v-col>
     </v-row>
     
@@ -91,6 +91,6 @@
 .resultdiv {
   border-style: solid;
   border-radius: 20px;
-  border-color: darkgray;
+  border-color: #3d2fff;
 }
 </style>

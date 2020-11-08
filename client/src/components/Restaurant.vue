@@ -45,9 +45,8 @@
               </v-icon>
             </v-list-item-icon>
     
-            <v-list-item-content>
-              <v-list-item-title>{{restaurant.grades.score}} / {{restaurant.grades.grade}}</v-list-item-title>
-              <v-list-item-subtitle>{{restaurant.grades.date}}</v-list-item-subtitle>
+            <v-list-item-content v-for="(score, index) in restaurant.grades" :key="index">
+              <v-list-item-title>{{score.score}}{{score.grade}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
     
@@ -59,7 +58,7 @@
                 mdi-map-marker
               </v-icon>
             </v-list-item-icon>
-    
+      
             <v-list-item-content>
               <v-list-item-title>{{restaurant.address.street}}</v-list-item-title>
               <v-list-item-subtitle>{{restaurant.borough}} , {{restaurant.address.zipcode}}</v-list-item-subtitle>
@@ -67,62 +66,64 @@
           </v-list-item>
         </v-list>
       </v-card>
-      </v-row>
+    </v-row>
 
-      <v-row class="text-center row-2"><p></p></v-row>
-      <v-row class="text-center row-3">
-        <v-card max-width="500px" tile>
-  
-      <v-list-item two-line>
-        <v-list-item-content>
-          <v-list-item-title>Entrée</v-list-item-title>
-          <v-list-item-subtitle>{{menu.entree}}</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-  
-      <v-list-item three-line>
-        <v-list-item-content>
-          <v-list-item-title>Plat</v-list-item-title>
-          <v-list-item-subtitle>
-            {{menu.plat_1}}
-          </v-list-item-subtitle>
-          <v-list-item-subtitle>
-            {{menu.plat_2}}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+    <v-row class="text-center row-2"><p></p></v-row>
 
-      <v-list-item two-line>
-        <v-list-item-content>
-          <v-list-item-title>Dessert</v-list-item-title>
-          <v-list-item-subtitle>{{menu.dessert}}</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-card>
+    <v-row class="text-center row-3">
+      <v-card tile>
 
-    <!--<l-map
-      :zoom="zoom"
-      :center="center"
-      :options="mapOptions"
-      style="height: 80%"
-      @update:center="centerUpdate"
-      @update:zoom="zoomUpdate"
-    >
-      <l-tile-layer
-        :url="url"
-        :attribution="attribution"
-      />
-      <l-marker :lat-lng="getLatLng()">
-      </l-marker>
-    </l-map>-->
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title>Entrée</v-list-item-title>
+            <v-list-item-subtitle>{{menu.entree}}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
 
+        <v-list-item three-line>
+          <v-list-item-content>
+            <v-list-item-title>Plat</v-list-item-title>
+            <v-list-item-subtitle>
+              {{menu.plat_1}}
+            </v-list-item-subtitle>
+            <v-list-item-subtitle>
+              {{menu.plat_2}}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title>Dessert</v-list-item-title>
+            <v-list-item-subtitle>{{menu.dessert}}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-card>
+    </v-row>
+    <v-row class="text-center row-4">
+      <l-map
+        v-if="showMap"
+        :zoom="zoom"
+        :center="center"
+        :options="mapOptions"
+        style="height: 80%"
+        @update:center="centerUpdate"
+        @update:zoom="zoomUpdate"
+      >
+        <l-tile-layer
+          :url="url"
+          :attribution="attribution"
+        />
+        <l-marker :lat-lng="getLatLng()">
+        </l-marker>
+      </l-map>
     </v-row>
           
   </v-container>
 </template>
 
 <script>
-  //import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+  import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
   import { latLng } from "leaflet";
 
   export default {
@@ -142,8 +143,8 @@
           cuisine: "Africaine",
           address:{
             coord:{
-              0: 10.31,
-              1: 123.89,
+              0: -73.98242,
+              1: 40.579505,
             },
             building:"Immeuble 1",
             street: "11 rue du poulet",
@@ -156,15 +157,31 @@
           }
         },
       menu:[],
+      center: null,
+      showMap: false,
       zoom: 13,
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      mapOptions: {
+        zoomSnap: 0.5
+      },
+      currentCenter: null,
       currentZoom: 11.5,
-      currentCenter: this.getLatLng(),
-      center: this.getLatLng(),
     }),
     mounted() {
-      this.generateMenu();
+      this.getRestaurant(this.$route.params.id);
     },
     methods: {
+      async getRestaurant (id) {
+        const url = `http://localhost:4000/restaurants/get/${id}`;
+        const data = await (await fetch(url)).json();
+        this.restaurant = data;
+        this.generateMenu();
+        this.center = this.getLatLng();
+        this.currentCenter = this.getLatLng();
+        this.showMap = true;
+      },
       getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
       },
@@ -208,14 +225,23 @@
   float: left;
 }
 
+.display-1 {
+  word-break: normal;
+}
+
 .row-2{
   width: 1%;
 }
 
 .row-3{
-  float: right;
-  background-color: gainsboro;
-  width: 70%;
+  float: left;
   height: 535px;
+  width:10%;
+}
+
+.row-4 {
+  width: 60%;
+  height: 670px;
+  float: right;
 }
 </style>
