@@ -29,20 +29,14 @@
     </v-app-bar>
 
     <v-main>
-      <Restaurants/>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Restaurants from './components/Restaurants';
-
 export default {
   name: 'App',
-
-  components: {
-    Restaurants,
-  },
 
   data: () => ({
     //
