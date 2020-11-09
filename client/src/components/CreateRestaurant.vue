@@ -106,7 +106,6 @@ export default {
       async sendRestaurants () {
         this.restaurant.address.coord[0] = Number(this.restaurant.address.coord[0]);
         this.restaurant.address.coord[1] = Number(this.restaurant.address.coord[1]);
-        console.log(this.restaurant);
         const url = 'http://localhost:4000/restaurants/create';
         await fetch(url, {
           method: 'POST',

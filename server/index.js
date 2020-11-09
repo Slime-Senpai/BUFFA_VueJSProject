@@ -12,12 +12,6 @@ app.use(morgan('tiny'));
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Entry point!'
-  });
-});
-
 app.use('/restaurants', restaurantsRouter);
 
 const port = process.env.PORT || 4000;
