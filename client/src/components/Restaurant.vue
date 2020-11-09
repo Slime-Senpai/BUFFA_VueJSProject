@@ -6,16 +6,18 @@
           src="https://axwwgrkdco.cloudimg.io/v7/mtp-cf-images.s3-eu-west-1.amazonaws.com/images/max/6b230120-a430-4b9d-81e5-550e51b2f64d.jpg?width=1000"
           height="300px"
           dark>
-          <v-row class="fill-height">
+          <v-row>
             <v-card-title>
               <v-spacer></v-spacer>
-              <v-btn dark icon class="mr-4">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-    
-              <v-btn dark icon></v-btn>
+              <router-link :to="'/restaurants/update/' + restaurant._id">
+                <v-btn dark icon class="mr-4">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </router-link>
+                <v-btn dark icon class="mr-4" @click="deleteRestaurant($route.params.id)">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
             </v-card-title>
-            <v-spacer></v-spacer>
             <v-card-title class="white--text pl-12 pt-12">
               <div class="display-1 pl-12 pt-12">{{restaurant.name}}</div>
             </v-card-title>
@@ -135,27 +137,10 @@
     },
 
     data: () => ({
-      restaurant: 
-        {
-          restaurant_id: "4555", 
-          name: "Chez Mopolo",
-          borough: "Cote d'Ivoire",
-          cuisine: "Africaine",
-          address:{
-            coord:{
-              0: -73.98242,
-              1: 40.579505,
-            },
-            building:"Immeuble 1",
-            street: "11 rue du poulet",
-            zipcode: "89 881"
-          },
-          grades:{
-            date: "10/11/2020",
-            grade: "5",
-            score: "5"
-          }
-        },
+      restaurant: {
+        address: {},
+        grades: {}
+      },
       menu:[],
       center: null,
       showMap: false,
@@ -182,11 +167,21 @@
         this.currentCenter = this.getLatLng();
         this.showMap = true;
       },
+      async deleteRestaurant (id) {
+        const url = `http://localhost:4000/restaurants/delete/${id}`;
+        const data = await fetch(url);
+
+        console.log(data);
+
+        if (data.status === 204) {
+          this.$router.push('/');
+        }
+      },
       getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
       },
       generateMenu(){
-        var entree = ["Blinis","Velouté de champignons","Soufflé au fromage","Salade","Melon"];
+        var entree = ["Blinis","Velouté","Soufflé au fromage","Salade","Melon"];
         var plat_1 = ["Steak","Poulet","Veaux","Mouton"];
         var plat_2 = ["Frites","Salade","Poireau","Harricot","Soupe","Tomate"];
         var dessert = ["Fraises","Glaces","Fruits sec"];
@@ -219,6 +214,10 @@
 
 <style>
 
+.vcard__title {
+  display: block;
+}
+
 .row-1 {
   margin-top: 18px;
   width: 30%;
@@ -227,6 +226,7 @@
 
 .display-1 {
   word-break: normal;
+  margin-right: 80px;
 }
 
 .row-2{
