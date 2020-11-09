@@ -125,8 +125,8 @@
 </template>
 
 <script>
-  import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
-  import { latLng } from "leaflet";
+  import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+  import { latLng } from 'leaflet';
 
   export default {
     name: 'Restaurant',
@@ -171,8 +171,6 @@
         const url = `http://localhost:4000/restaurants/delete/${id}`;
         const data = await fetch(url);
 
-        console.log(data);
-
         if (data.status === 204) {
           this.$router.push('/');
         }
@@ -181,33 +179,27 @@
         return Math.floor(Math.random() * Math.floor(max));
       },
       generateMenu(){
-        var entree = ["Blinis","Velouté","Soufflé au fromage","Salade","Melon"];
-        var plat_1 = ["Steak","Poulet","Veaux","Mouton"];
-        var plat_2 = ["Frites","Salade","Poireau","Harricot","Soupe","Tomate"];
-        var dessert = ["Fraises","Glaces","Fruits sec"];
+        var entree = ['Blinis','Velouté','Soufflé au fromage','Salade','Melon'];
+        var plat_1 = ['Steak','Poulet','Veaux','Mouton'];
+        var plat_2 = ['Frites','Salade','Poireau','Harricot','Soupe','Tomate'];
+        var dessert = ['Fraises','Glaces','Fruits sec'];
 
         this.menu = {
-          "entree": entree[this.getRandomInt(entree.length)],
-          "plat_1": plat_1[this.getRandomInt(plat_1.length)],
-          "plat_2": plat_2[this.getRandomInt(plat_2.length)],
-          "dessert": dessert[this.getRandomInt(dessert.length)],
+          'entree': entree[this.getRandomInt(entree.length)],
+          'plat_1': plat_1[this.getRandomInt(plat_1.length)],
+          'plat_2': plat_2[this.getRandomInt(plat_2.length)],
+          'dessert': dessert[this.getRandomInt(dessert.length)],
         }
       },
-      getLatLng(){
+      getLatLng () {
         return latLng(this.restaurant.address.coord[1], this.restaurant.address.coord[0]);
       },
-      zoomUpdate(zoom) {
+      zoomUpdate (zoom) {
         this.currentZoom = zoom;
       },
-      centerUpdate(center) {
+      centerUpdate (center) {
         this.currentCenter = center;
       },
-      showLongText() {
-        this.showParagraph = !this.showParagraph;
-      },
-      innerClick() {
-        alert("Click!");
-      }
     }
   }
 </script>
