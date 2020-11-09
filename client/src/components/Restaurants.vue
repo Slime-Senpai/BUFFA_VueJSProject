@@ -16,9 +16,9 @@
           @change="textChange"
         ></v-text-field>
         </v-card-title>
-        <v-data-table :headers="headers" :items="restaurants" hide-default-footer :loading="loading">
+        <v-data-table :headers="headers" :items="restaurants" hide-default-footer :loading="loading" :items-per-page="pageSize">
           <template v-slot:item="{ item }">
-              <router-link :to="'/restaurant/' + item._id" tag="tr">
+              <router-link :to="'/restaurants/get/' + item._id" tag="tr">
                 <td class="text-start">{{ item.name }}</td>
                 <td class="text-start">{{ item.borough }}</td>
                 <td class="text-start">{{ item.cuisine }}</td>
@@ -30,8 +30,11 @@
             </v-alert>
           </template>
         </v-data-table>
-        <v-select v-model="pageSize" :items="pageSizes" item-text="text" item-value="nbPages" label="PageSize" persistent-hint single-line></v-select>
+        <v-select v-model="pageSize" :items="pageSizes" item-text="text" item-value="nbPages" label="PageSize" persistent-hint single-line @change="getRestaurants(1)"></v-select>
         <v-pagination v-model="page" :length="length" total-visible="10" circle @input="getRestaurants" color="#3d2fff"></v-pagination>
+        <router-link :to="'/restaurants/create/'">
+        Nouveau Restaurant
+        </router-link>
       </v-col>
     </v-row>
     
@@ -57,7 +60,7 @@
       restaurants: [],
       length: 1,
       page: 1,
-      pageSize: 50,
+      pageSize: 10,
       pageSizes: [
         { nbPages: 10, text: '10 par page' },
         { nbPages: 25, text: '25 par page' },
