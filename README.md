@@ -6,12 +6,28 @@ A VueJS Project by DAUMAS Timmy and LOGNON Jean-Baptiste for the JavaScript and 
 # How to use
 Pour que le projet fonctionne, il faut avoir une mongoDB tournant sur la machine avec une database "test" et une collection "restaurants" suivant le format donné dans la DB du TP.
 
-Tout d'abord faire:
+Voici la liste des commandes à faire dans l'ordre pour ouvrir le projet.
 
-node ./index.js
+(Dans un cmd):
 
-dans le serveur puis
+mongod
+
+(Dans un autre cmd):
+
+git clone https://github.com/Slime-Senpai/BUFFA_VueJSProject
+
+cd BUFFA_VueJSProject
+
+cd server
+
+npm i
+
+node index.js
+
+(Dans un dernier cmd):
+
+cd BUFFA_VueJSProject/client
+
+npm i
 
 npm run serve
-
-dans le client.
