@@ -16,9 +16,7 @@ mongod
 
 git clone https://github.com/Slime-Senpai/BUFFA_VueJSProject
 
-cd BUFFA_VueJSProject
-
-cd server
+cd BUFFA_VueJSProject/server
 
 npm i
 
