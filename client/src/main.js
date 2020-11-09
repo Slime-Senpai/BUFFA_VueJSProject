@@ -4,6 +4,7 @@ import vuetify from './plugins/vuetify';
 import VueRouter from 'vue-router';
 import Restaurants from './components/Restaurants';
 import Restaurant from './components/Restaurant';
+import CreateRestaurant from './components/CreateRestaurant';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import 'leaflet-defaulticon-compatibility';
@@ -15,10 +16,19 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
+      name: 'restaurants',
       component: Restaurants
     },
     {
-      path: '/restaurant/:id',
+      path: '/restaurants/create',
+      component: CreateRestaurant
+    },
+    {
+      path: '/restaurants/update/:id',
+      component: CreateRestaurant
+    },
+    {
+      path: '/restaurants/get/:id',
       component: Restaurant
     }
   ],
